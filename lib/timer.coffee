@@ -120,7 +120,7 @@ module.exports =
                 @break = 0
 
                 # Remove the class from the clock view
-                @clockView.removeClass( "paused" )
+                @clockView.element.classList.remove( "paused" )
 
             # Update the clock view
             @clockView.update( @format() )
@@ -165,7 +165,7 @@ module.exports =
                 @statusView.update( "Time tracking paused!" )
 
                 # Add a paused class to the clock for visual changes
-                @clockView.addClass( "paused" )
+                @clockView.element.classList.add( "paused" )
 
         ### FINISH ###
         finish: ->
@@ -186,7 +186,7 @@ module.exports =
                     @pauses.push { start: @pauseTimestamp, duration: @break }
 
                     # Remove the class from the clock view
-                    @clockView.removeClass( "paused" )
+                    @clockView.element.classList.remove( "paused" )
 
                 # Save the time tracking data at this point
                 @save()
@@ -250,7 +250,9 @@ module.exports =
             # Check if we are in pause
             if @pauseTimestamp isnt null
                 # Remove the paused class
-                @clockView.removeClass( "paused" )
+                @clockView.element.classList.remove( "paused" )
+
+
 
             # Reset the clocks
             @resetClocks()
@@ -266,7 +268,7 @@ module.exports =
             # Check if we are in pause
             if @pauseTimestamp isnt null
                 # Remove the paused class
-                @clockView.removeClass( "paused" )
+                @clockView.element.classList.remove( "paused" )
 
             # Reset internal stuff
             @resetClocks()
@@ -546,6 +548,12 @@ module.exports =
             # Create the status bar views
             @clockView ?= new ClockView()
             @statusView ?= new StatusView()
+            @clockView.element.onclick = (event)=>
+              elem = event.currentTarget
+              if @isActive
+                @pause()
+              else
+                @start()
 
             # Attach the clock first
             @clockView.attach(statusBar)

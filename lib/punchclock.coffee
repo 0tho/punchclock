@@ -10,7 +10,6 @@ PunchclockView = null # Defer until use
 createPunchclockView = ( state ) ->
     ### REQUIRES ###
     PunchclockView ?= require "./views/index.js"
-
     # Check if we have a view already
     return new PunchclockView( state )
 
